@@ -1,10 +1,12 @@
-const { customAlphabet } = require('nanoid');
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
+// import secureRandom from 'secure-random';
+// import { randomBytes } from 'crypto'
 
-const generateSecretKey = customAlphabet(alphabet, 32);
 
-const key = {
-  secretKey: generateSecretKey(),
-};
+// // const randomBytes = secureRandom(16);
+// const randomString = randomBytes(12)
 
-module.exports= key;
+// const key = {
+//   secretKey: secureRandom
+// };
+
+// module.exports= key;

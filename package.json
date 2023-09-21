@@ -23,6 +23,7 @@
     "mysql2": "^3.6.1",
     "nanoid": "^5.0.1",
     "nodemon": "^3.0.1",
+    "secure-random": "^1.1.2",
     "sequelize": "^6.33.0"
   }
 }

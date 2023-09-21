@@ -6,7 +6,7 @@ const myPlugin = {
         // Log incoming request information
         server.ext('onRequest', (request, h) => {
           console.log(`Incoming request: ${request.method.toUpperCase()} ${request.path}`);
-          return h.continue();
+          return h.response();
         });
       }
   
@@ -14,7 +14,7 @@ const myPlugin = {
       server.ext('onPreResponse', (request, h) => {
         const response = request.response;
         console.log(`Outgoing response: ${response.statusCode}`);
-        return h.continue();
+        return h.response().code(200);
       });
     },
   };

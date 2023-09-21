@@ -8,44 +8,40 @@ import jwt from "hapi-auth-jwt2"
 const init = async () => {
   const server = Hapi.server({
     port: 3000,
-    host: "localhost",
+    host: process.env.NODE_ENV !== 'production' ? 'localhost' : '0.0.0.0',
   });
 
   // Register the plugin with options
   await server.register({
     plugin: myPlugin,
     options: {
-      logRequests: true,
+      logRequests: false, // Example option: Log incoming requests
     },
   });
 
   await sequelize.authenticate();
   console.log("Berhasil terkoneksi ke database MySQL");
+  //   await sequelize.sync();
 
-  // Register the JWT authentication scheme
-  await server.register(jwt);
+  // await server.register(import("hapi-auth-jwt2"));
+await server.register(jwt);
 
   server.auth.strategy("jwt", "jwt", {
-    key: "your-secret-key", // Replace with your actual JWT secret key
+    key: import("./config/auth.mjs").secretKey,
     validate: validateToken,
     verifyOptions: { algorithms: ["HS256"] },
   });
 
   server.route(routeAuth);
-  server.route(routeUser);
 
-  await server.start();
-  console.log(`Server berjalan di ${server.info.uri}`);
+  server.route(routeUser);
+  server.start();
+
+  await console.log(`Server berjalan di ${server.info.uri}`);
 };
 
 const validateToken = async (decoded, request) => {
-  // Implement your token validation logic here
-  // Example: Check if the decoded token is valid
-  if (decoded && decoded.userId) {
-    return { isValid: true, credentials: decoded };
-  } else {
-    return { isValid: false };
-  }
+  return { isValid: true, credentials: decoded };
 };
 
 process.on("unhandledRejection", (err) => {
